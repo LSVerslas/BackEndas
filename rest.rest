@@ -2,3 +2,5 @@
 GET http://localhost:3000/trips
 ### Get all trips 404
 GET http://localhost:3000/trips4004
+### Get single trip
+GET http://localhost:3000/trips/1
