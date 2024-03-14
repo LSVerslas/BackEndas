@@ -5,8 +5,8 @@ export default async function dbQueryWithData(sql: string, argArr: (string | num
     let conn;
     try {
         conn = await mysql.createConnection(dbConfig);
-        const [rows, fields] = await conn.execute(sql, argArr);
-        console.log('fields ===', fields);
+        const [rows, _fields] = await conn.execute(sql, argArr);
+        // console.log('fields ===', fields);
         return [rows, null];
     } catch (error) {
         return [null, error];
