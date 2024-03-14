@@ -1,5 +1,22 @@
-import {sum} from './helpers/helper.js';
+import express from 'express';
+import morgan from 'morgan';
+import cors from 'cors';
+import mysql from 'mysql2';
 
-console.log('Server is running...123');
+const app = express();
 
-console.log('sum(5, 10)', sum(5, 10));
+const port = 3000;
+
+
+app.use(morgan('dev'));
+app.use(cors());
+
+app.get('/', (req, res) => {
+    res.json({ msg: 'server is running' });
+});
+
+//Routes
+
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+});
