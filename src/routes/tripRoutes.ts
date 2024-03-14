@@ -54,11 +54,10 @@ tripsRouter.get('/:tripId', async (req, res) => {
 
 tripsRouter.post('/', async (req, res) => {
 
-    const { name, date, country, city, rating, description, price, user_id} = req.body as Omit<
-    TripObjType,
-    'id'
-    >;
-    const argArr = [name, date, country, city, rating, description, price, user_id]
+    const { name, date, country, city, rating, description, price, user_id, image_main } = 
+    req.body as Omit<TripObjType, 'id'>;
+    
+    const argArr = [name, date, country, city, rating, description, price, user_id, image_main]
 
     // Grazinti pilna nauja objekta, reikia atlikti u=duoti
 

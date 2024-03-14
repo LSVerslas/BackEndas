@@ -8,4 +8,8 @@ export type TripObjType = {
     description: string;
     price: number;
     user_id: number;
+    image_main: string;
+    image_1?: string;
+    image_2?: string;
+    image_3?: string
 };
