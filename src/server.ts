@@ -8,7 +8,7 @@ const app = express();
 
 const port = 3000;
 
-
+//MIddleware
 app.use(morgan('dev'));
 app.use(cors());
 
@@ -18,6 +18,12 @@ app.get('/', (_req, res) => {
 
 //Routes
 app.use('/trips', tripsRouter);
+
+// 404
+app.use((req, res) => {
+ res.status(404).json({ error: 'Server not found', path: req.url });
+    
+});
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);

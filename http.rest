@@ -1,3 +1,0 @@
-### Get all trips
-
-GET http://localhost:3000/trips
