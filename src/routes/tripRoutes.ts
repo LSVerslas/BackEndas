@@ -63,7 +63,7 @@ tripsRouter.post('/', async (req, res) => {
     // Grazinti pilna nauja objekta, reikia atlikti u=duoti
 
     let rez: ResultSetHeader
-    rez.insertId
+    // rez.insertId
 
     // padaryti DELETE/trip
 
