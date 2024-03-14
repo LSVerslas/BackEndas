@@ -2,6 +2,7 @@
 import express from 'express';
 import dbQueryWithData from '../helpers/helper.js';
 import { TripObjType } from '../helpers/types.js';
+import { ResultSetHeader } from 'mysql2';
 
 const tripsRouter = express.Router();
 
@@ -49,6 +50,26 @@ tripsRouter.get('/:tripId', async (req, res) => {
     console.log('rows ===', rows);
 
     res.json(rows[0]);
+});
+
+tripsRouter.post('/', async (req, res) => {
+
+    const { name, date, country, city, rating, description, price, user_id} = req.body as Omit<
+    TripObjType,
+    'id'
+    >;
+    const argArr = [name, date, country, city, rating, description, price, user_id]
+
+    // Grazinti pilna nauja objekta, reikia atlikti u=duoti
+
+    let rez: ResultSetHeader
+    rez.insertId
+
+    // padaryti DELETE/trip
+
+    // padaryti UPDATE/trip
+
+    res.json(argArr);
 });
 
 export default tripsRouter;

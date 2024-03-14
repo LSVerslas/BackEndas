@@ -1,6 +1,23 @@
 ### Get all trips
 GET http://localhost:3000/trips
+
 ### Get all trips 404
 GET http://localhost:3000/trips4004
+
 ### Get single trip
 GET http://localhost:3000/trips/1
+
+### Create trip
+POST http://localhost:3000/trips
+Content-Type: application/json
+
+{
+    "name": "Trip to Kaunas",
+    "date": "2018-03-13",
+    "country": "Lithuania",
+    "city": "Kaunas",
+    "rating": 3,
+    "description": "Trip to Kaunas old town",
+    "price": 300,
+    "user_id": 2
+}

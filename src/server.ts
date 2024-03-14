@@ -16,6 +16,7 @@ testConnection();
 //MIddleware
 app.use(morgan('dev'));
 app.use(cors());
+app.use(express.json());
 
 app.get('/', (_req, res) => {
     res.json({ msg: 'server is running' });
