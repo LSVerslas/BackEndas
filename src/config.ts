@@ -7,3 +7,4 @@ export const dbConfig = {
 
 export const PORT = process.env.PORT;
 
+console.log('dbConfig ===', dbConfig);
