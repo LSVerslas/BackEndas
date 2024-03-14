@@ -10,7 +10,7 @@ const tripsRouter = express.Router();
 // 'id', 'name', 'date', 'country', 'city', 'rating', 'description', 'price', 'user_id',
 // ];
 
-const tripCols = 'id,name,date,country,city,rating,description,price,user_id'
+const tripCols = 'id,name,date,country,city,rating,description,price,user_id,image_main';
 
 // GET - /trips - textaa 'get all trips'
 tripsRouter.get('/', async (_req, res) => {
@@ -56,7 +56,7 @@ tripsRouter.post('/', async (req, res) => {
 
     const { name, date, country, city, rating, description, price, user_id, image_main } = 
     req.body as Omit<TripObjType, 'id'>;
-    
+
     const argArr = [name, date, country, city, rating, description, price, user_id, image_main]
 
     // Grazinti pilna nauja objekta, reikia atlikti u=duoti
