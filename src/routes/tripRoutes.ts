@@ -2,7 +2,7 @@
 import express from 'express';
 import dbQueryWithData from '../helpers/helper.js';
 import { TripObjType } from '../helpers/types.js';
-import { ResultSetHeader } from 'mysql2';
+// import { ResultSetHeader } from 'mysql2';
 
 const tripsRouter = express.Router();
 
@@ -61,7 +61,7 @@ tripsRouter.post('/', async (req, res) => {
 
     // Grazinti pilna nauja objekta, reikia atlikti u=duoti
 
-    let rez: ResultSetHeader
+    // let rez: ResultSetHeader
     // rez.insertId
 
     // padaryti DELETE/trip
