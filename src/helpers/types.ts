@@ -9,7 +9,7 @@ export type TripObjType = {
     price: number;
     user_id: number;
     image_main: string;
-    image_1?: string;
-    image_2?: string;
-    image_3?: string
+    images_1?: string;
+    images_2?: string;
+    images_3?: string
 };

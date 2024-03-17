@@ -19,5 +19,9 @@ Content-Type: application/json
     "rating": 3,
     "description": "Trip to Kaunas old town",
     "price": 300,
-    "user_id": 2
+    "user_id": 2,
+    "image_main": "trip.jpg"
 }
+
+### Get single trip
+DELETE http://localhost:3000/trips/5
