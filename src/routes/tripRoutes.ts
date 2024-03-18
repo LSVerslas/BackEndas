@@ -3,6 +3,7 @@ import express from 'express';
 import dbQueryWithData from '../helpers/helper.js';
 import { TripObjType } from '../helpers/types.js';
 import { ResultSetHeader } from 'mysql2';
+import { checkTripBody } from '../middleware/middleware.js';
 
 const tripsRouter = express.Router();
 
@@ -56,7 +57,7 @@ tripsRouter.get('/:tripId', async (req, res) => {
 });
 
 // - POST /trips - sukurti nauja irasa
-tripsRouter.post('/', async (req, res) => {
+tripsRouter.post('/', checkTripBody, async (req, res) => {
   // tai kas atsiusta gyvena ?
 
   const {

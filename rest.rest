@@ -12,15 +12,15 @@ POST http://localhost:3000/trips
 Content-Type: application/json
 
 {
-    "name": "Trip to Kaunas",
-    "date": "2018-03-13",
-    "country": "Lithuania",
-    "city": "Kaunas",
+    "name": "Trip to Jamaika",
+    "date": "2024-03-30",
+    "country": "Jamaika",
+    "city": "JCity",
     "rating": 3,
-    "description": "Trip to Kaunas old town",
-    "price": 300,
+    "description": "Trip good islands",
+    "price": 1350,
     "user_id": 2,
-    "image_main": "trip.jpg"
+    "image_main": "jamaika.jpeg"
 }
 
 ### Get single trip
