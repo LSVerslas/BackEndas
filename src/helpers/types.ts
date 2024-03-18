@@ -13,3 +13,5 @@ export type TripObjType = {
     images_2?: string;
     images_3?: string
 };
+
+export type TripObjTypeNoId = Omit<TripObjType, 'id'>;
