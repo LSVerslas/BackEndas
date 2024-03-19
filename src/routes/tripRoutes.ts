@@ -30,6 +30,13 @@ tripsRouter.get('/', async (_req, res) => {
   res.json(row);
 });
 
+// GET /trips/filter?country=uk
+tripsRouter.get('/filter', async (req, res) => {
+  // kur gyvena ?country
+  const countryVal = req.query.country;
+  res.json(countryVal);
+});
+
 // - GET /trips/:id - grazinti viena irasa pagal id
 tripsRouter.get('/:tripId', async (req, res) => {
   const currentId = req.params.tripId;

@@ -1,10 +1,11 @@
-### Get all trips
+### Filter
+GET http://localhost:3000/trips/filter?country=france&price=500
+### Get all Trips
 GET http://localhost:3000/trips
-
-### Get all trips 404
+### Get all Trips 404
 GET http://localhost:3000/trips4004
 
-### Get single trip
+### Get single Trip
 GET http://localhost:3000/trips/1
 
 ### Create trip
@@ -12,16 +13,17 @@ POST http://localhost:3000/trips
 Content-Type: application/json
 
 {
-    "name": "Trip to Jamaika",
-    "date": "2024-03-30",
-    "country": "Jamaika",
-    "city": "JCity",
-    "rating": 3,
-    "description": "Trip good islands",
-    "price": 1350,
+    "name": "Trip to Uzbekistan",
+    "date": "2004-10-09",
+    "country": "Uzbekistan",
+    "city": "",
+    "rating": 4,
+    "description": "Uzbekistan is very beautiful",
+    "price": 700,
     "user_id": 2,
-    "image_main": "jamaika.jpeg"
+    "images_1": "",
+    "image_main": "trip.jpg"
 }
 
-### Get single trip
-DELETE http://localhost:3000/trips/5
+### Delete single Trip
+DELETE  http://localhost:3000/trips/5
