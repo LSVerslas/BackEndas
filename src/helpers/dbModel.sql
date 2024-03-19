@@ -25,6 +25,7 @@ VALUES
 ('Trip to London', '2021-11-10', 'United Kingdom', 'London', 4, 'London is the capital of England', 800, 1, 'London.jpg'),
 ('Trip to Rome', '2021-12-10', 'Italy', 'Rome', 3, 'Rome is the capital of Italy', 900, 2, 'Rome.jpg');
 
+
 -- create table countries with id, name, capital, population, area, flag, description, is_deleted, created_at
 -- create table countries with id, name, description, image_main, is_deleted created_at
 

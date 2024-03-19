@@ -33,8 +33,26 @@ tripsRouter.get('/', async (_req, res) => {
 // GET /trips/filter?country=uk
 tripsRouter.get('/filter', async (req, res) => {
   // kur gyvena ?country
-  const countryVal = req.query.country;
-  res.json(countryVal);
+  const countryVal = req.query.country?.toString();
+
+  if (!countryVal) return res.status(400).json('no country given');
+
+  // kreiptis i duomenu base ir pariusti tik tos salies objektus
+  const sql = `SELECT ${tripCols} FROM trips WHERE is_deleted=0 AND country = ?`;
+  const [row, error] = (await dbQueryWithData(sql, [countryVal])) as [TripObjType[], Error];
+
+  if (error) {
+    console.warn('get all trips error ===', error);
+    console.warn('error ===', error.message);
+    return res.status(400).json({ error: 'something went wrong' });
+  }
+
+  // console.log('row ===', row[0]);
+
+  // gauti visus trips objektus masyvo pavidalu
+  res.json(row);
+
+  // res.json(countryVal);
 });
 
 // - GET /trips/:id - grazinti viena irasa pagal id

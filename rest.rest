@@ -1,5 +1,6 @@
 ### Filter
-GET http://localhost:3000/trips/filter?country=france&price=500
+GET http://localhost:3000/trips/filter?country=United Kingdom
+
 ### Get all Trips
 GET http://localhost:3000/trips
 ### Get all Trips 404
