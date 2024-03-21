@@ -30,6 +30,36 @@ tripsRouter.get('/', async (_req, res) => {
   res.json(row);
 });
 
+// Get - trips/cities - grazinti visus unikalius miestus
+tripsRouter.get('/cities', async (_req, res) => {
+  const sql = `SELECT DISTINCT city FROM trips WHERE is_deleted=0`;
+  const [row, error] = (await dbQueryWithData(sql)) as [TripObjType[], Error];
+
+  if (error) {
+    console.warn('get all cities error ===', error);
+    console.warn('error ===', error.message);
+    return res.status(400).json({ error: 'something went wrong' });
+  }
+
+  // gauti visus trips objektus masyvo pavidalu
+  res.json(row);
+});
+
+// GET /trips/countries - grazinti visas unikalias salis
+tripsRouter.get('/countries', async (_req, res) => {
+  const sql = `SELECT DISTINCT country FROM trips WHERE is_deleted=0`;
+  const [row, error] = (await dbQueryWithData(sql)) as [TripObjType[], Error];
+
+  if (error) {
+    console.warn('get all countries error ===', error);
+    console.warn('error ===', error.message);
+    return res.status(400).json({ error: 'something went wrong' });
+  }
+
+  // gauti visus trips objektus masyvo pavidalu
+  res.json(row);
+});
+
 // GET /trips/filter?country=uk
 tripsRouter.get('/filter', async (req, res) => {
   // kur gyvena ?country
@@ -39,6 +69,8 @@ tripsRouter.get('/filter', async (req, res) => {
 
   // kreiptis i duomenu base ir pariusti tik tos salies objektus
   const sql = `SELECT ${tripCols} FROM trips WHERE is_deleted=0 AND country = ?`;
+  // const sql = `SELECT ${tripCols} FROM trips WHERE is_deleted=0 AND country = ? AND city = ?`;
+  // const sql = `SELECT ${tripCols} FROM trips WHERE is_deleted=0 AND country = ? AND city = ? AND raing ? ?`;
   const [row, error] = (await dbQueryWithData(sql, [countryVal])) as [TripObjType[], Error];
 
   if (error) {
