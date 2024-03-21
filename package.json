@@ -1,5 +1,5 @@
 {
-  "name": "backendas",
+  "name": "12_node_mysql",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,12 +7,14 @@
   "scripts": {
     "ts": "tsc --watch",
     "start": "node dist/server.js",
-    "dev": "nodemon dist/server.js"
+    "dev": "nodemon dist/server.js",
+    "all": "tsc --onSuccess \"node dist/server.js\""
   },
   "keywords": [],
-  "author": "LS",
+  "author": "M.K.",
   "license": "ISC",
   "dependencies": {
+    "@types/bcrypt": "^5.0.2",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",

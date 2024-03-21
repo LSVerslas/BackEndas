@@ -1,5 +1,6 @@
 // sukursim authRouter
 import express from 'express';
+import bcrypt from 'bcrypt';
 import dbQueryWithData from '../helpers/helper.js';
 import { ResultSetHeader } from 'mysql2';
 // import bcrypt from 'bcrypt';
@@ -13,8 +14,9 @@ authRouter.post('/register', async (req, res) => {
   const { name = '', email, password } = req.body;
 
   const insertSql = `INSERT INTO users (name, email,password) VALUES (?,?,?)`;
-  const passwordHash = ''; // hash password su brcypt
-  const [result, insertError] = (await dbQueryWithData(insertSql, [name, email, password])) as [
+  const passwordHash = await bcrypt.hash(password, 10);
+  // const passwordHash = ''; // hash password su brcypt
+  const [result, insertError] = (await dbQueryWithData(insertSql, [name, email, passwordHash])) as [
     ResultSetHeader,
     Error & { code: string },
   ];
@@ -61,7 +63,9 @@ authRouter.post('/login', async (req, res) => {
 
   // 3. jei yra. jau turim gave userObj ziurim ar sutampa slaptazodziai?
   const userObj = users[0];
-  if (userObj.password !== plainTextPassword) {
+  // const arSutampaSlaptazodziai = bcrypt.compare(myPlaintextPassword, hash)
+  const arSutampaSlaptazodziai = await bcrypt.compare(plainTextPassword, userObj.password);
+  if (!arSutampaSlaptazodziai) {
     return res.status(400).json({ error: 'Email or password is incorrect (p)' });
   }
   // 3.1 tikrinti su bcrypt ar sutampa sifras su duotu slaptazodziu
