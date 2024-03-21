@@ -2,6 +2,8 @@
 import express from 'express';
 import dbQueryWithData from '../helpers/helper.js';
 import { ResultSetHeader } from 'mysql2';
+// import bcrypt from 'bcrypt';
+import { UserObjType } from '../helpers/types.js';
 
 const authRouter = express.Router();
 
@@ -14,7 +16,7 @@ authRouter.post('/register', async (req, res) => {
   const passwordHash = ''; // hash password su brcypt
   const [result, insertError] = (await dbQueryWithData(insertSql, [name, email, password])) as [
     ResultSetHeader,
-    Error,
+    Error & { code: string },
   ];
 
   if (insertError) {
@@ -30,26 +32,44 @@ authRouter.post('/register', async (req, res) => {
   if (result.affectedRows === 0) {
     return res.status(400).json({ error: 'user was not created' });
   }
-
+  console.log('name ===', name);
   // grazinti success ir email
-  res.json({ success: true, email });
+  res.json({ success: true, email, name });
 });
 
 // sukurti useri is fron end
 
 authRouter.post('/login', async (req, res) => {
   // 1. gaunam email ir password
+  const { email, password: plainTextPassword } = req.body;
 
   // 2. surasti ar yra toks email, jei nera pranesti useriui
+  const selectSql = `SELECT * FROM users WHERE email = ?`;
+  const [users, selectError] = (await dbQueryWithData(selectSql, [email])) as [
+    UserObjType[],
+    Error,
+  ];
+
+  if (selectError) {
+    console.warn('select user error ===', selectError);
+    return res.status(500).json({ error: 'something went wrong' });
+  }
+
+  if (users.length === 0) {
+    return res.status(400).json({ error: 'User does not exist' });
+  }
 
   // 3. jei yra. jau turim gave userObj ziurim ar sutampa slaptazodziai?
+  const userObj = users[0];
+  if (userObj.password !== plainTextPassword) {
+    return res.status(400).json({ error: 'Email or password is incorrect (p)' });
+  }
   // 3.1 tikrinti su bcrypt ar sutampa sifras su duotu slaptazodziu
 
   // 4. jei nesutampa - pranesam kad email arba pass netinka
 
   // 5. jei sutampa - 200, success yra true, email ir name to userio kuris prisiregistravo
-
-  res.json('login route');
+  res.json({ success: true, email: userObj.email, name: userObj.name });
 });
 
 export default authRouter;

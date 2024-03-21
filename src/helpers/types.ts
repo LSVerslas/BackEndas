@@ -11,13 +11,14 @@ export type TripObjType = {
     image_main: string;
     images_1?: string;
     images_2?: string;
-    images_3?: string
-};
-
-export type TripObjTypeNoId = Omit<TripObjType, 'id'>;
-
-export type UserObjType = {
-    id: number;
+    images_3?: string;
+  };
+  
+  export type TripObjTypeNoId = Omit<TripObjType, 'id'>;
+  
+  export type UserObjType = {
+    id?: number;
+    name?: string;
     email: string;
     password: string;
   };

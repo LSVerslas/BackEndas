@@ -64,14 +64,35 @@ tripsRouter.get('/countries', async (_req, res) => {
 tripsRouter.get('/filter', async (req, res) => {
   // kur gyvena ?country
   const countryVal = req.query.country?.toString();
+  const cityVal = req.query.city?.toString();
+  const rating = req.query.rating?.toString();
 
-  if (!countryVal) return res.status(400).json('no country given');
+  // if (!countryVal && !cityVal && !rating) return res.status(400).json('no country/city given');
 
   // kreiptis i duomenu base ir pariusti tik tos salies objektus
-  const sql = `SELECT ${tripCols} FROM trips WHERE is_deleted=0 AND country = ?`;
+  let sql = `SELECT ${tripCols} FROM trips WHERE is_deleted=0`;
+  let argArr = [];
+
+  if (countryVal) {
+    sql += ` AND country = ?`;
+    argArr.push(countryVal);
+  }
+
+  if (cityVal) {
+    sql += ` AND city = ?`;
+    argArr.push(cityVal);
+  }
+
+  if (rating) {
+    sql += ` AND rating >= ?`;
+    argArr.push(rating);
+  }
+
+  // prideti rating
+
   // const sql = `SELECT ${tripCols} FROM trips WHERE is_deleted=0 AND country = ? AND city = ?`;
   // const sql = `SELECT ${tripCols} FROM trips WHERE is_deleted=0 AND country = ? AND city = ? AND raing ? ?`;
-  const [row, error] = (await dbQueryWithData(sql, [countryVal])) as [TripObjType[], Error];
+  const [row, error] = (await dbQueryWithData(sql, argArr)) as [TripObjType[], Error];
 
   if (error) {
     console.warn('get all trips error ===', error);

@@ -1,16 +1,13 @@
 ### Filter
 GET http://localhost:3000/trips/filter?country=United Kingdom
-
-### Get all Trips
-GET http://localhost:3000/trips
-### Get all Trips 404
-GET http://localhost:3000/trips4004
-
-### Get single Trip
-GET http://localhost:3000/trips/1
-
-### Create trip### Filter
-GET http://localhost:3000/trips/filter?country=United Kingdom
+### Filter complex
+GET http://localhost:3000/trips/filter?country=france&city=paris
+### Filter complex
+GET http://localhost:3000/trips/filter?city=mur mur
+### Filter complex
+GET http://localhost:3000/trips/filter?rating=3&city=beach
+### Filter complex
+GET http://localhost:3000/trips/filter
 
 ### Get all Trips
 GET http://localhost:3000/trips
@@ -22,24 +19,6 @@ GET http://localhost:3000/trips4004
 GET http://localhost:3000/trips/1
 
 ### Create trip
-POST http://localhost:3000/trips
-Content-Type: application/json
-
-{
-    "name": "Trip to Uzbekistan",
-    "date": "2004-10-09",
-    "country": "Uzbekistan",
-    "city": "",
-    "rating": 4,
-    "description": "Uzbekistan is very beautiful",
-    "price": 700,
-    "user_id": 2,
-    "images_1": "",
-    "image_main": "trip.jpg"
-}
-
-### Delete single Trip
-DELETE  http://localhost:3000/trips/5
 POST http://localhost:3000/trips
 Content-Type: application/json
 
