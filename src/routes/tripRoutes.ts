@@ -10,13 +10,14 @@ const tripsRouter = express.Router();
 // const fields = [
 //   'id','name','date','country','city','rating','description','price','user_id',
 // ];
-const tripCols = 'id,name,date,country,city,rating,description,price,user_id,image_main';
+const tripCols =
+  'id,name,date,country,city,rating,description,price,user_id,image_main,images_1,images_2,images_3';
 
 // GET - /trips/ - texta 'get all trips'
 tripsRouter.get('/', async (_req, res) => {
   // panaudoti dbQueryWithData
   const sql = `SELECT ${tripCols} FROM trips WHERE is_deleted=0`;
-  const [row, error] = (await dbQueryWithData(sql)) as [TripObjType[], Error];
+  const [row, error] = await dbQueryWithData<TripObjType[]>(sql);
 
   if (error) {
     console.warn('get all trips error ===', error);
@@ -33,7 +34,7 @@ tripsRouter.get('/', async (_req, res) => {
 // Get - trips/cities - grazinti visus unikalius miestus
 tripsRouter.get('/cities', async (_req, res) => {
   const sql = `SELECT DISTINCT city FROM trips WHERE is_deleted=0`;
-  const [row, error] = (await dbQueryWithData(sql)) as [TripObjType[], Error];
+  const [row, error] = (await dbQueryWithData<TripObjType[]>(sql));
 
   if (error) {
     console.warn('get all cities error ===', error);
@@ -48,7 +49,7 @@ tripsRouter.get('/cities', async (_req, res) => {
 // GET /trips/countries - grazinti visas unikalias salis
 tripsRouter.get('/countries', async (_req, res) => {
   const sql = `SELECT DISTINCT country FROM trips WHERE is_deleted=0`;
-  const [row, error] = (await dbQueryWithData(sql)) as [TripObjType[], Error];
+  const [row, error] = (await dbQueryWithData(sql)) as [TripObjType[], null] | [null, Error];
 
   if (error) {
     console.warn('get all countries error ===', error);
@@ -92,7 +93,7 @@ tripsRouter.get('/filter', async (req, res) => {
 
   // const sql = `SELECT ${tripCols} FROM trips WHERE is_deleted=0 AND country = ? AND city = ?`;
   // const sql = `SELECT ${tripCols} FROM trips WHERE is_deleted=0 AND country = ? AND city = ? AND raing ? ?`;
-  const [row, error] = (await dbQueryWithData(sql, argArr)) as [TripObjType[], Error];
+  const [row, error] = (await dbQueryWithData<TripObjType[]>(sql, argArr));
 
   if (error) {
     console.warn('get all trips error ===', error);
@@ -108,13 +109,32 @@ tripsRouter.get('/filter', async (req, res) => {
   // res.json(countryVal);
 });
 
+// GET /trips/user/id/1
+tripsRouter.get('/user/id/:userId', async (req, res) => {
+  const userId = req.params.userId;
+  const sql = `SELECT ${tripCols} FROM trips WHERE is_deleted=0 AND user_id=?`;
+
+  const [rows, error] = await dbQueryWithData<TripObjType[]>(sql, [userId]);
+
+  if (error) {
+    console.warn('get all trips error ===', error);
+    console.warn('error ===', error.message);
+    return res.status(400).json({ error: 'something went wrong' });
+  }
+
+  // console.log('row ===', row[0]);
+
+  // gauti visus trips objektus masyvo pavidalu
+  res.json(rows);
+});
+
 // - GET /trips/:id - grazinti viena irasa pagal id
 tripsRouter.get('/:tripId', async (req, res) => {
   const currentId = req.params.tripId;
 
   const sql = `SELECT ${tripCols} FROM trips WHERE is_deleted=0 AND id=?`;
 
-  const [rows, error] = (await dbQueryWithData(sql, [currentId])) as [TripObjType[], Error];
+  const [rows, error] = (await dbQueryWithData<TripObjType[]>(sql, [currentId]));
 
   if (error) {
     console.warn('grazinti viena irasa pagal id error ===', error);
@@ -172,7 +192,7 @@ tripsRouter.post('/', checkTripBody, async (req, res) => {
   const sql = `INSERT INTO trips (name, date, country, city, rating, description, price, user_id, image_main, images_1, images_2, images_3) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`;
 
   // jei sekmingai sukurta grzinti naujai sukurto iraso id
-  const [rows, error] = (await dbQueryWithData(sql, argArr)) as [ResultSetHeader, Error];
+  const [rows, error] = await dbQueryWithData<ResultSetHeader>(sql, argArr);
 
   // grazinti pilna nauja objekta
   if (error) {
@@ -194,7 +214,7 @@ tripsRouter.delete('/:tripId', async (req, res) => {
 
   const sql = `UPDATE trips SET is_deleted=1 WHERE id=? LIMIT 1`;
 
-  const [rows, error] = (await dbQueryWithData(sql, [currentId])) as [ResultSetHeader, Error];
+  const [rows, error] = await dbQueryWithData<ResultSetHeader>(sql, [currentId]);
 
   if (error) {
     console.warn('istrinti irasa pakeiciant is_deleted i 1 error ===', error);

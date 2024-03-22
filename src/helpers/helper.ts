@@ -3,7 +3,10 @@ import { dbConfig } from '../config.js';
 
 type QueryResult<T> = [T, null] | [null, Error];
 
-export default async function dbQueryWithData(sql: string, argArr: (string | number)[] = []) {
+export default async function dbQueryWithData<T>(
+  sql: string,
+  argArr: (string | number)[] = [],
+): Promise<QueryResult<T>> {
   let conn;
   try {
     // prisijungti prie DB
@@ -12,9 +15,9 @@ export default async function dbQueryWithData(sql: string, argArr: (string | num
     const [rows, _fields] = await conn.execute(sql, argArr);
     // console.log('fields ===', fields);
     // grazinti duomenis
-    return [rows, null];
+    return [rows as T, null];
   } catch (error) {
-    return [null, error];
+    return [null, error as Error];
   } finally {
     // atsijungti nuo DB
     if (conn) conn.end();

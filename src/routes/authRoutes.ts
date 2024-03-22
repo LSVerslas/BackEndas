@@ -2,7 +2,7 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import dbQueryWithData from '../helpers/helper.js';
-import { ResultSetHeader } from 'mysql2';
+import { ResultSetHeader, QueryError } from 'mysql2';
 // import bcrypt from 'bcrypt';
 import { UserObjType } from '../helpers/types.js';
 
@@ -16,16 +16,18 @@ authRouter.post('/register', async (req, res) => {
   const insertSql = `INSERT INTO users (name, email,password) VALUES (?,?,?)`;
   const passwordHash = await bcrypt.hash(password, 10);
   // const passwordHash = ''; // hash password su brcypt
-  const [result, insertError] = (await dbQueryWithData(insertSql, [name, email, passwordHash])) as [
-    ResultSetHeader,
-    Error & { code: string },
-  ];
+  const [result, insertError] = await dbQueryWithData<ResultSetHeader>(insertSql, [
+    name,
+    email,
+    passwordHash,
+  ]);
 
   if (insertError) {
+    const msqlErr = insertError as QueryError;
     console.warn('insert user error ===', insertError);
     console.warn('error ===', insertError.message);
 
-    if (insertError?.code === 'ER_DUP_ENTRY') {
+    if (msqlErr.code === 'ER_DUP_ENTRY') {
       return res.status(400).json({ error: 'Email already exists' });
     }
 
@@ -36,7 +38,7 @@ authRouter.post('/register', async (req, res) => {
   }
   console.log('name ===', name);
   // grazinti success ir email
-  res.json({ success: true, email, name });
+  res.json({ success: true, email, name, id: result.insertId });
 });
 
 // sukurti useri is fron end
@@ -47,10 +49,7 @@ authRouter.post('/login', async (req, res) => {
 
   // 2. surasti ar yra toks email, jei nera pranesti useriui
   const selectSql = `SELECT * FROM users WHERE email = ?`;
-  const [users, selectError] = (await dbQueryWithData(selectSql, [email])) as [
-    UserObjType[],
-    Error,
-  ];
+  const [users, selectError] = await dbQueryWithData<UserObjType[]>(selectSql, [email]);
 
   if (selectError) {
     console.warn('select user error ===', selectError);
@@ -73,7 +72,7 @@ authRouter.post('/login', async (req, res) => {
   // 4. jei nesutampa - pranesam kad email arba pass netinka
 
   // 5. jei sutampa - 200, success yra true, email ir name to userio kuris prisiregistravo
-  res.json({ success: true, email: userObj.email, name: userObj.name });
+  res.json({ success: true, email: userObj.email, name: userObj.name, id: userObj.id });
 });
 
 export default authRouter;
