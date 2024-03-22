@@ -1,7 +1,7 @@
 -- lentele
 
 CREATE TABLE trips (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     date DATE NOT NULL,
     country VARCHAR(255) NOT NULL,
@@ -30,7 +30,7 @@ VALUES
 -- create table countries with id, name, description, image_main, is_deleted created_at
 
 CREATE TABLE countries (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     image_main VARCHAR(255) NOT NULL,
@@ -50,7 +50,7 @@ VALUES
 
 -- Lentele users
 CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+    id INT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
