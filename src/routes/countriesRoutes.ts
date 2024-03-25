@@ -9,7 +9,7 @@ const countriesRouter = express.Router();
 // GET - /countries/ - texta 'get all countries'
 countriesRouter.get('/', async (_req, res) => {
   // panaudoti dbQueryWithData
-  const sql = `SELECT id,name,description,image_main FROM countries WHERE is_deleted=0`;
+  const sql = `SELECT id,name,description,image_main,created_at FROM countries WHERE is_deleted=0`;
   const [row, error] = await dbQueryWithData<CountryObjType[]>(sql);
 
   if (error) {
@@ -26,7 +26,7 @@ countriesRouter.get('/', async (_req, res) => {
 countriesRouter.get('/:countryId', async (req, res) => {
   const currentId = req.params.countryId;
 
-  const sql = `SELECT id,name,description,image_main FROM countries WHERE is_deleted=0 AND id=?`;
+  const sql = `SELECT id,name,description,image_main, created_at FROM countries WHERE is_deleted=0 AND id=?`;
 
   const [rows, error] = await dbQueryWithData<CountryObjType[]>(sql, [currentId]);
 

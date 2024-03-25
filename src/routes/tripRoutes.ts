@@ -16,11 +16,13 @@ const tripCols =
 // GET - /trips/ - texta 'get all trips'
 tripsRouter.get('/', async (_req, res) => {
   // panaudoti dbQueryWithData
-  const sql = `SELECT trips.id,trips.name,trips.date,trips.country,trips.city,trips.rating,trips.description,trips.price,trips.user_id,trips.image_main,trips.images_1,trips.images_2,trips.images_3, users.email
+  const sql = `
+  SELECT trips.id,trips.name,trips.date,trips.country,trips.city,trips.rating,trips.description,trips.price,trips.user_id,trips.image_main,trips.images_1,trips.images_2,trips.images_3, users.email
   FROM trips
   LEFT JOIN users
   ON trips.user_id = users.id
-  WHERE trips.is_deleted = 0`;
+  WHERE trips.is_deleted = 0
+  `;
   const [row, error] = await dbQueryWithData<TripObjType[]>(sql);
 
   if (error) {
@@ -38,7 +40,7 @@ tripsRouter.get('/', async (_req, res) => {
 // Get - trips/cities - grazinti visus unikalius miestus
 tripsRouter.get('/cities', async (_req, res) => {
   const sql = `SELECT DISTINCT city FROM trips WHERE is_deleted=0`;
-  const [row, error] = (await dbQueryWithData<TripObjType[]>(sql));
+  const [row, error] = await dbQueryWithData<TripObjType[]>(sql);
 
   if (error) {
     console.warn('get all cities error ===', error);
@@ -75,11 +77,13 @@ tripsRouter.get('/filter', async (req, res) => {
   // if (!countryVal && !cityVal && !rating) return res.status(400).json('no country/city given');
 
   // kreiptis i duomenu base ir pariusti tik tos salies objektus
-  let sql = `SELECT trips.id,trips.name,trips.date,trips.country,trips.city,trips.rating,trips.description,trips.price,trips.user_id,trips.image_main,trips.images_1,trips.images_2,trips.images_3, users.email
+  let sql = `
+  SELECT trips.id,trips.name,trips.date,trips.country,trips.city,trips.rating,trips.description,trips.price,trips.user_id,trips.image_main,trips.images_1,trips.images_2,trips.images_3, users.email
   FROM trips
   LEFT JOIN users
   ON trips.user_id = users.id
   WHERE trips.is_deleted = 0`;
+  // let sql = `SELECT ${tripCols} FROM trips WHERE is_deleted=0`;
   let argArr = [];
 
   if (countryVal) {
@@ -101,7 +105,7 @@ tripsRouter.get('/filter', async (req, res) => {
 
   // const sql = `SELECT ${tripCols} FROM trips WHERE is_deleted=0 AND country = ? AND city = ?`;
   // const sql = `SELECT ${tripCols} FROM trips WHERE is_deleted=0 AND country = ? AND city = ? AND raing ? ?`;
-  const [row, error] = (await dbQueryWithData<TripObjType[]>(sql, argArr));
+  const [row, error] = await dbQueryWithData<TripObjType[]>(sql, argArr);
 
   if (error) {
     console.warn('get all trips error ===', error);
@@ -140,9 +144,15 @@ tripsRouter.get('/user/id/:userId', async (req, res) => {
 tripsRouter.get('/:tripId', async (req, res) => {
   const currentId = req.params.tripId;
 
-  const sql = `SELECT ${tripCols} FROM trips WHERE is_deleted=0 AND id=?`;
+  // const sql = `SELECT ${tripCols} FROM trips WHERE is_deleted=0 AND id=?`;
+  let sql = `
+  SELECT trips.id,trips.name,trips.date,trips.country,trips.city,trips.rating,trips.description,trips.price,trips.user_id,trips.image_main,trips.images_1,trips.images_2,trips.images_3, users.email
+  FROM trips
+  LEFT JOIN users
+  ON trips.user_id = users.id
+  WHERE trips.is_deleted = 0 AND trips.id=?`;
 
-  const [rows, error] = (await dbQueryWithData<TripObjType[]>(sql, [currentId]));
+  const [rows, error] = await dbQueryWithData<TripObjType[]>(sql, [currentId]);
 
   if (error) {
     console.warn('grazinti viena irasa pagal id error ===', error);
@@ -219,8 +229,19 @@ tripsRouter.post('/', checkTripBody, async (req, res) => {
 
 tripsRouter.delete('/:tripId', async (req, res) => {
   const currentId = req.params.tripId;
+  console.log('req.body ===', req.body);
+  console.log('currentId ===', currentId);
+  const tripUserId = '';
+
+  // gauti ir palyginti tripUserId
+  // jei useris ne saviningkas pranesti su 403
+  if (req.body.userId.toString() !== currentId) {
+    return res.status(401).json({ error: 'only owner can delete' });
+  }
 
   const sql = `UPDATE trips SET is_deleted=1 WHERE id=? LIMIT 1`;
+
+  return;
 
   const [rows, error] = await dbQueryWithData<ResultSetHeader>(sql, [currentId]);
 
