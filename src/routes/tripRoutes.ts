@@ -16,7 +16,11 @@ const tripCols =
 // GET - /trips/ - texta 'get all trips'
 tripsRouter.get('/', async (_req, res) => {
   // panaudoti dbQueryWithData
-  const sql = `SELECT ${tripCols} FROM trips WHERE is_deleted=0`;
+  const sql = `SELECT trips.id,trips.name,trips.date,trips.country,trips.city,trips.rating,trips.description,trips.price,trips.user_id,trips.image_main,trips.images_1,trips.images_2,trips.images_3, users.email
+  FROM trips
+  LEFT JOIN users
+  ON trips.user_id = users.id
+  WHERE trips.is_deleted = 0`;
   const [row, error] = await dbQueryWithData<TripObjType[]>(sql);
 
   if (error) {
@@ -71,7 +75,11 @@ tripsRouter.get('/filter', async (req, res) => {
   // if (!countryVal && !cityVal && !rating) return res.status(400).json('no country/city given');
 
   // kreiptis i duomenu base ir pariusti tik tos salies objektus
-  let sql = `SELECT ${tripCols} FROM trips WHERE is_deleted=0`;
+  let sql = `SELECT trips.id,trips.name,trips.date,trips.country,trips.city,trips.rating,trips.description,trips.price,trips.user_id,trips.image_main,trips.images_1,trips.images_2,trips.images_3, users.email
+  FROM trips
+  LEFT JOIN users
+  ON trips.user_id = users.id
+  WHERE trips.is_deleted = 0`;
   let argArr = [];
 
   if (countryVal) {

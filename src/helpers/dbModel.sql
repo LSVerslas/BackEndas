@@ -65,3 +65,12 @@ VALUES
 ('Francas', '1234567', 'franc@yandex.ru'),
 ('Zuokas', '1234567', 'zuokas@email.mail'),
 ('Budulis', '1234567', 'vagzalas@one.lt');
+
+
+-- get all trips wit email
+SELECT trips.id,trips.name,trips.date,trips.country,trips.city,trips.rating,trips.description,trips.price,trips.user_id,trips.image_main,trips.images_1,trips.images_2,trips.images_3, users.email
+FROM trips
+LEFT JOIN users
+ON trips.user_id = users.id
+WHERE trips.is_deleted = 0
+
