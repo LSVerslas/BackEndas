@@ -11,12 +11,17 @@ GET http://localhost:3000/trips/filter
 
 ### Get all Trips
 GET http://localhost:3000/trips
+### Get all user Trips
+GET http://localhost:3000/trips/user/id/23
+
 
 ### Get all Trips 404
 GET http://localhost:3000/trips4004
 
 ### Get single Trip
 GET http://localhost:3000/trips/1
+### Get single Trip
+GET http://localhost:3000/trips/deleted
 
 ### Create trip
 POST http://localhost:3000/trips
@@ -37,3 +42,10 @@ Content-Type: application/json
 
 ### Delete single Trip
 DELETE  http://localhost:3000/trips/5
+
+### get all countries
+
+GET http://localhost:3000/countries
+### get all countries
+
+GET http://localhost:3000/countries/1

@@ -37,6 +37,30 @@ tripsRouter.get('/', async (_req, res) => {
   res.json(row);
 });
 
+// GET - /trips/deleted - texta 'get all trips archive'
+tripsRouter.get('/deleted', async (_req, res) => {
+  // panaudoti dbQueryWithData
+  const sql = `
+  SELECT trips.id,trips.name,trips.date,trips.country,trips.city,trips.rating,trips.description,trips.price,trips.user_id,trips.image_main,trips.images_1,trips.images_2,trips.images_3, users.email
+  FROM trips
+  LEFT JOIN users
+  ON trips.user_id = users.id
+  WHERE trips.is_deleted = 1
+  `;
+  const [row, error] = await dbQueryWithData<TripObjType[]>(sql);
+
+  if (error) {
+    console.warn('get all trips error ===', error);
+    console.warn('error ===', error.message);
+    return res.status(400).json({ error: 'something went wrong' });
+  }
+
+  console.log('row ===', row[0]);
+
+  // gauti visus trips objektus masyvo pavidalu
+  res.json(row);
+});
+
 // Get - trips/cities - grazinti visus unikalius miestus
 tripsRouter.get('/cities', async (_req, res) => {
   const sql = `SELECT DISTINCT city FROM trips WHERE is_deleted=0`;
@@ -228,22 +252,34 @@ tripsRouter.post('/', checkTripBody, async (req, res) => {
 // - DELETE /trips/:id - istrinti irasa pakeiciant is_deleted i 1
 
 tripsRouter.delete('/:tripId', async (req, res) => {
-  const currentId = req.params.tripId;
+  const currentTripId = req.params.tripId;
   console.log('req.body ===', req.body);
-  console.log('currentId ===', currentId);
-  const tripUserId = '';
+  const currentBody = req.body as { userId: number };
+
+  console.log('currentId ===', currentTripId);
 
   // gauti ir palyginti tripUserId
+  const sql1 = 'SELECT * FROM trips WHERE id=?';
+  const [tripsArr, myError] = await dbQueryWithData<TripObjType[]>(sql1, [currentTripId]);
+
+  if (myError) {
+    console.log('myError ===', myError);
+    return res.status(500).json('bad bad things');
+  }
+  console.log('tripsArr ===', tripsArr);
+  const tripUserId = tripsArr[0].user_id;
+  // return res.status(400).json(tripsArr);
+
   // jei useris ne saviningkas pranesti su 403
-  if (req.body.userId.toString() !== currentId) {
+  console.log('req.body.userId.toString() ===', req.body.userId.toString());
+  console.log('tripUserId ===', tripUserId);
+  if (currentBody.userId !== tripUserId) {
     return res.status(401).json({ error: 'only owner can delete' });
   }
 
   const sql = `UPDATE trips SET is_deleted=1 WHERE id=? LIMIT 1`;
 
-  return;
-
-  const [rows, error] = await dbQueryWithData<ResultSetHeader>(sql, [currentId]);
+  const [rows, error] = await dbQueryWithData<ResultSetHeader>(sql, [currentTripId]);
 
   if (error) {
     console.warn('istrinti irasa pakeiciant is_deleted i 1 error ===', error);
@@ -253,10 +289,10 @@ tripsRouter.delete('/:tripId', async (req, res) => {
 
   if (rows.affectedRows === 0) {
     console.log('no rows');
-    return res.status(404).json({ error: `trip with id: '${currentId}' was not found` });
+    return res.status(404).json({ error: `trip with id: '${currentTripId}' was not found` });
   }
 
-  res.json({ msg: `trip with id: '${currentId}' was deleted` });
+  res.json({ msg: `trip with id: '${currentTripId}' was deleted` });
 });
 
 export default tripsRouter;

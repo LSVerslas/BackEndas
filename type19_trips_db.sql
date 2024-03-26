@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 22, 2024 at 08:17 AM
+-- Generation Time: Mar 26, 2024 at 08:35 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,9 +41,12 @@ CREATE TABLE `countries` (
 --
 
 INSERT INTO `countries` (`id`, `name`, `description`, `image_main`, `is_deleted`, `created_at`) VALUES
-(1, 'France', 'France is a country located in Western Europe. It is known for its wine, cheese, and the Eiffel Tower.', 'france.jpg', 0, '2024-03-19 05:25:56'),
-(2, 'United Kingdom', 'The United Kingdom is a country located off the northwestern coast of mainland Europe. It is made up of four countries: England, Scotland, Wales, and Northern Ireland.', 'uk.jpg', 0, '2024-03-19 05:25:56'),
-(3, 'Italy', 'Italy is a country located in Southern Europe. It is known for its art, architecture, and food.', 'italy.jpg', 0, '2024-03-19 05:25:56');
+(1, 'France', 'France is a country located in Western Europe. It is known for its wine, cheese, and the Eiffel Tower.', 'paris1.jpg', 0, '2024-03-19 05:25:56'),
+(2, 'United Kingdom', 'The United Kingdom is a country located off the northwestern coast of mainland Europe. It is made up of four countries: England, Scotland, Wales, and Northern Ireland.', 'london1.jpg', 0, '2024-03-19 05:25:56'),
+(3, 'Italy', 'Italy is a country located in Southern Europe. It is known for its art, architecture, and food.', 'rome1.jpg', 0, '2024-03-19 05:25:56'),
+(4, 'Spain', 'Spain is a country located in Southern Europe. It is known for its beaches, flamenco music, and bullfighting.', 'spain1.jpg', 0, '2024-03-26 05:29:48'),
+(5, 'Germany', 'Germany is a country located in Central Europe. It is known for its beer, sausages, and castles.', 'ger1.jpg', 0, '2024-03-26 05:29:48'),
+(6, 'Greece', 'Greece is a country located in Southern Europe. It is known for its ancient ruins, beaches, and olives.', 'greece1.jpg', 0, '2024-03-26 05:29:48');
 
 -- --------------------------------------------------------
 
@@ -74,7 +77,7 @@ CREATE TABLE `trips` (
 --
 
 INSERT INTO `trips` (`id`, `name`, `date`, `country`, `city`, `rating`, `description`, `price`, `is_deleted`, `user_id`, `created_at`, `image_main`, `images_1`, `images_2`, `images_3`) VALUES
-(1, 'Trip to Paris', '2024-10-10', 'France', 'Paris', 5, 'Paris is the capital of France', 1000.00, 0, 23, '2024-03-14 09:43:01', 'paris1.jpg', NULL, NULL, NULL),
+(1, 'Trip to Paris', '2024-10-10', 'France', 'Paris', 5, 'Paris is the capital of France', 1000.00, 0, 23, '2024-03-14 09:43:01', 'paris1.jpg', 'paris2.jpg', 'paris3.jpg', 'paris4.jpg'),
 (2, 'Trip to London', '2021-11-10', 'United Kingdom', 'London', 4, 'London is the capital of England', 800.00, 0, 22, '2024-03-14 09:43:01', 'london1.jpg', NULL, NULL, NULL),
 (3, 'Trip to Rome', '2021-12-10', 'Italy', 'Rome', 3, 'Rome is the capital of Italy', 900.00, 0, 23, '2024-03-14 09:43:01', 'rome1.jpg', NULL, NULL, NULL),
 (4, 'Trip to Uzbekistan', '0204-10-09', 'Uzbekistan', 'Tumur', 4, 'Uzbekistan is very beautiful', 700.00, 0, 22, '2024-03-15 08:36:48', 'uzb1.jpg', NULL, NULL, NULL),
@@ -88,7 +91,16 @@ INSERT INTO `trips` (`id`, `name`, `date`, `country`, `city`, `rating`, `descrip
 (12, 'Trip to Jamaika', '2024-03-20', 'asdasdasd', 'Mur mur', 0, 'asdasdasdasdasd', 699.00, 0, 333, '2024-03-18 09:41:37', 'jamaika1.jpg', '', '', ''),
 (13, 'Trip to Uzbekistan', '0204-10-09', 'Uzbekistan', 'Tumur', 4, 'Uzbekistan is very beautiful', 700.00, 1, 2, '2024-03-18 09:49:18', 'trip.jpg', '', '', ''),
 (14, 'Trip to Jamaika2', '2024-03-31', 'Jamaika', 'Beach', 4, 'Trip to Jamaika2', 699.00, 0, 333, '2024-03-19 07:47:25', 'jamaika2.jpg', '', '', ''),
-(15, 'Trip to Jamaika', '2024-03-29', 'Jamaika', 'Mur mur', 0, 'Trip to Jamaika', 699.00, 1, 333, '2024-03-19 07:50:42', 'jamaika2.jpg', '', '', '');
+(15, 'Trip to Jamaika', '2024-03-29', 'Jamaika', 'Mur mur', 0, 'Trip to Jamaika', 699.00, 0, 333, '2024-03-19 07:50:42', 'jamaika2.jpg', '', '', ''),
+(16, 'Trip to Madrid', '2021-12-10', 'Spain', 'Madrid', 4, 'Madrid is the capital of Spain', 600.00, 0, 2, '2024-03-26 05:29:28', 'spain1.jpg', NULL, NULL, NULL),
+(17, 'Trip to Berlin', '2021-12-10', 'Germany', 'Berlin', 3, 'Berlin is the capital of Germany', 1300.00, 0, 2, '2024-03-26 05:29:28', 'ger2.jpg', NULL, NULL, NULL),
+(18, 'Trip to Athens', '2021-12-10', 'Greece', 'Athens', 3, 'Athens is the capital of Greece', 900.00, 0, 2, '2024-03-26 05:29:28', 'greece1.jpg', NULL, NULL, NULL),
+(19, 'Trip to Paris', '2024-10-10', 'France', 'Paris', 5, 'Paris is the capital of France', 1000.00, 0, 1, '2024-03-26 05:29:28', 'paris2.jpg', NULL, NULL, NULL),
+(20, 'Trip to London', '2021-11-10', 'United Kingdom', 'London', 4, 'London is the capital of England', 1400.00, 0, 1, '2024-03-26 05:29:28', 'london2.jpg', NULL, NULL, NULL),
+(21, 'Trip to Rome', '2021-12-10', 'Italy', 'Rome', 3, 'Rome is the capital of Italy', 900.00, 0, 2, '2024-03-26 05:29:28', 'rome2.jpg', NULL, NULL, NULL),
+(22, 'Trip to Madrid', '2021-12-10', 'Spain', 'Madrid', 4, 'Madrid is the capital of Spain', 900.00, 0, 2, '2024-03-26 05:29:28', 'spain2.jpg', NULL, NULL, NULL),
+(23, 'Trip to Berlin', '2021-12-10', 'Germany', 'Berlin', 3, 'Berlin is the capital of Germany', 900.00, 0, 2, '2024-03-26 05:29:28', 'ger3.jpg', NULL, NULL, NULL),
+(24, 'Trip to Athens', '2021-12-10', 'Greece', 'Athens', 3, 'Athens is the capital of Greece', 400.00, 0, 2, '2024-03-26 05:29:28', 'greece2.jpg', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -145,13 +157,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `countries`
 --
 ALTER TABLE `countries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `trips`
 --
 ALTER TABLE `trips`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `users`

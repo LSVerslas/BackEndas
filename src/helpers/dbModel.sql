@@ -32,6 +32,19 @@ VALUES
 ('Trip to London', '2021-11-10', 'United Kingdom', 'London', 4, 'London is the capital of England', 800, 1, 'London.jpg'),
 ('Trip to Rome', '2021-12-10', 'Italy', 'Rome', 3, 'Rome is the capital of Italy', 900, 2, 'Rome.jpg');
 
+-- add more trips
+INSERT INTO trips (name, date, country, city, rating, description, price, user_id, image_main )
+VALUES 
+('Trip to Madrid', '2021-12-10', 'Spain', 'Madrid', 4, 'Madrid is the capital of Spain', 900, 2, 'Madrid.jpg'),
+('Trip to Berlin', '2021-12-10', 'Germany', 'Berlin', 3, 'Berlin is the capital of Germany', 900, 2, 'Berlin.jpg'),
+('Trip to Athens', '2021-12-10', 'Greece', 'Athens', 3, 'Athens is the capital of Greece', 900, 2, 'Athens.jpg'), 
+('Trip to Paris', '2024-10-10', 'France', 'Paris', 5, 'Paris is the capital of France', 1000, 1, 'paris2.jpg'),
+('Trip to London', '2021-11-10', 'United Kingdom', 'London', 4, 'London is the capital of England', 800, 1, 'London.jpg'),
+('Trip to Rome', '2021-12-10', 'Italy', 'Rome', 3, 'Rome is the capital of Italy', 900, 2, 'Rome2.jpg'),
+('Trip to Madrid', '2021-12-10', 'Spain', 'Madrid', 4, 'Madrid is the capital of Spain', 900, 2, 'Madrid.jpg'),
+('Trip to Berlin', '2021-12-10', 'Germany', 'Berlin', 3, 'Berlin is the capital of Germany', 900, 2, 'Berlin.jpg'),
+('Trip to Athens', '2021-12-10', 'Greece', 'Athens', 3, 'Athens is the capital of Greece', 900, 2, 'Athens.jpg');
+
 -- create table countries with id, name, capital, population, area, flag, description, is_deleted, created_at
 -- create table countries with id, name, description, image_main, is_deleted created_at
 
@@ -50,6 +63,13 @@ VALUES
 ('France', 'France is a country located in Western Europe. It is known for its wine, cheese, and the Eiffel Tower.', 'france.jpg'),
 ('United Kingdom', 'The United Kingdom is a country located off the northwestern coast of mainland Europe. It is made up of four countries: England, Scotland, Wales, and Northern Ireland.', 'uk.jpg'),
 ('Italy', 'Italy is a country located in Southern Europe. It is known for its art, architecture, and food.', 'italy.jpg');
+
+-- add more countries
+INSERT INTO countries (name, description, image_main)
+VALUES 
+('Spain', 'Spain is a country located in Southern Europe. It is known for its beaches, flamenco music, and bullfighting.', 'spain.jpg'),
+('Germany', 'Germany is a country located in Central Europe. It is known for its beer, sausages, and castles.', 'germany.jpg'),
+('Greece', 'Greece is a country located in Southern Europe. It is known for its ancient ruins, beaches, and olives.', 'greece.jpg');
 
 
 
