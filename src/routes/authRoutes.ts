@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import dbQueryWithData from '../helpers/helper.js';
 import { ResultSetHeader, QueryError } from 'mysql2';
 // import bcrypt from 'bcrypt';
-import { UserObjType } from '../helpers/types.js';
+import { UpdateUserObjType, UserObjType } from '../helpers/types.js';
 
 const authRouter = express.Router();
 
@@ -73,6 +73,27 @@ authRouter.post('/login', async (req, res) => {
 
   // 5. jei sutampa - 200, success yra true, email ir name to userio kuris prisiregistravo
   res.json({ success: true, email: userObj.email, name: userObj.name, id: userObj.id });
+});
+
+// password/user update
+// PUT /auth/user/update/:userId
+
+authRouter.put('/user/update/:userId', async (req, res) => {
+  // pasiimiti user id
+  // pasiimti password ir currentPassword is req body
+  const {} = req.body as UpdateUserObjType;
+
+  // step1 - login
+  // surasti user pgl id
+  // patikrinti slaptazodziai
+
+  // jei nesutampa pranesti atgal
+
+  // jei sutampa register logic
+  // slaptazodi is bodu hashinam su bcrypt
+  // irasom i db su sql uzklausa
+
+  res.json('updating in progress');
 });
 
 export default authRouter;

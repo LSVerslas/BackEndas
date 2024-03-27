@@ -37,6 +37,9 @@ tripsRouter.get('/', async (_req, res) => {
   res.json(row);
 });
 
+// BAck end route
+// GET - /trips/country/france - grazinti visas keliones is france
+
 // GET - /trips/deleted - texta 'get all trips archive'
 tripsRouter.get('/deleted', async (_req, res) => {
   // panaudoti dbQueryWithData

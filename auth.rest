@@ -19,3 +19,16 @@ Content-Type: application/json
   "email": "james@bond.com",
   "password": "123456"
 }
+
+### Get User
+GET http://localhost:3000/users/21
+
+### Update User
+
+PUT http://localhost:3000/users/update/name/21
+Content-Type: application/json
+
+{
+  "updatedName": "James Hash 333"
+}
+  

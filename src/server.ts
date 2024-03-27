@@ -8,6 +8,7 @@ import { PORT } from './config.js';
 import testConnection from './helpers/msqlTestRoute.js';
 import countriesRouter from './routes/countriesRoutes.js';
 import authRouter from './routes/authRoutes.js';
+import usersRouter from './routes/usersRoutes.js';
 
 const app = express();
 
@@ -26,11 +27,11 @@ app.get('/', (_req, res) => {
   res.json({ msg: 'server is running' });
 });
 
-console.log('Ar prisijungimas prie server.ts');
 // Routes
 app.use('/auth', authRouter);
 app.use('/trips', tripsRouter);
 app.use('/countries', countriesRouter);
+app.use('/users', usersRouter);
 
 // 404
 

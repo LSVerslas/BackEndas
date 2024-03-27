@@ -21,6 +21,7 @@ export type UserObjType = {
   name?: string;
   email: string;
   password: string;
+  created_at: string;
 };
 
 export type CountryObjType = {
@@ -29,4 +30,11 @@ export type CountryObjType = {
   description: string;
   image_main: string;
   created_at: string;
+};
+
+export type UpdateUserObjType = {
+  name?: string;
+  email: string;
+  currentPassword: string;
+  password: string;
 };
