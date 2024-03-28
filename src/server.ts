@@ -9,6 +9,7 @@ import testConnection from './helpers/msqlTestRoute.js';
 import countriesRouter from './routes/countriesRoutes.js';
 import authRouter from './routes/authRoutes.js';
 import usersRouter from './routes/usersRoutes.js';
+import likesRouter from './routes/likesRouter.js';
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use('/auth', authRouter);
 app.use('/trips', tripsRouter);
 app.use('/countries', countriesRouter);
 app.use('/users', usersRouter);
+app.use('/likes', likesRouter);
 
 // 404
 

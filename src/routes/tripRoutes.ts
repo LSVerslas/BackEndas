@@ -199,6 +199,28 @@ tripsRouter.get('/:tripId', async (req, res) => {
   res.json(rows[0]);
 });
 
+// GET /trips/byCountry/1 - grazina visa keliones is salies kurios id 1
+tripsRouter.get('/byCountry/:countryId', async (req, res) => {
+  const countryId = req.params.countryId;
+  const sql = `
+  SELECT trips.id,trips.name,trips.date,trips.country,trips.city,trips.rating,trips.description,trips.price,trips.user_id,trips.image_main,trips.images_1,trips.images_2,trips.images_3
+  FROM trips
+  RIGHT JOIN countries
+  ON trips.country = countries.name
+  WHERE countries.id = ? AND trips.is_deleted = 0
+  `;
+
+  const [rows, error] = await dbQueryWithData<TripObjType[]>(sql, [countryId]);
+
+  if (error) {
+    console.warn('byCountry trips error ===', error);
+    console.warn('error ===', error.message);
+    return res.status(400).json({ error: 'something went wrong' });
+  }
+
+  res.json(rows);
+});
+
 // - POST /trips - sukurti nauja irasa
 tripsRouter.post('/', checkTripBody, async (req, res) => {
   // tai kas atsiusta gyvena ?

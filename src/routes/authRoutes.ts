@@ -80,20 +80,52 @@ authRouter.post('/login', async (req, res) => {
 
 authRouter.put('/user/update/:userId', async (req, res) => {
   // pasiimiti user id
+  const { userId } = req.params;
   // pasiimti password ir currentPassword is req body
-  const {} = req.body as UpdateUserObjType;
+  const { email, password: newPassword, name, currentPassword } = req.body as UpdateUserObjType;
+  console.log('req.body ===', req.body);
 
   // step1 - login
   // surasti user pgl id
+  const selectSql = `SELECT * FROM users WHERE id = ?`;
+  const [users, selectError] = await dbQueryWithData<UserObjType[]>(selectSql, [userId]);
+
+  if (selectError) {
+    console.warn('password/user update ===', selectError);
+    return res.status(500).json({ error: 'something went wrong' });
+  }
+
+  if (users.length === 0) {
+    return res.status(400).json({ error: 'User does not exist' });
+  }
+
+  // 3. jei yra. jau turim gave userObj ziurim ar sutampa slaptazodziai?
+  const userObj = users[0];
+  console.log('userObj ===', userObj);
   // patikrinti slaptazodziai
+  // lyginam req.body.currentPassword(plain) su userObj.password(hash)
+  const arSutampaSlaptazodziai = await bcrypt.compare(currentPassword.toString(), userObj.password);
+  if (!arSutampaSlaptazodziai) {
+    return res
+      .status(400)
+      .json({ code: 'pass', error: 'Email or password is incorrect (p current pass)' });
+  }
 
-  // jei nesutampa pranesti atgal
-
+  const passwordHash = await bcrypt.hash(newPassword, 10);
+  //nustato user su id userId slaptazodi i passwordHash
+  const sql = `UPDATE users SET password = ? WHERE id = ?`;
+  const [result, insertError] = await dbQueryWithData<ResultSetHeader>(sql, [passwordHash, userId]);
   // jei sutampa register logic
-  // slaptazodi is bodu hashinam su bcrypt
-  // irasom i db su sql uzklausa
+  if (insertError) {
+    console.warn('password/user update ===', insertError);
+    return res.status(500).json({ error: 'something went wrong' });
+  }
 
-  res.json('updating in progress');
+  if (result.affectedRows === 0) {
+    return res.status(400).json('Nothing changed');
+  }
+
+  res.json({ success: true });
 });
 
 export default authRouter;

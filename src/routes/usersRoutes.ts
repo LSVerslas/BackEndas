@@ -38,7 +38,7 @@ usersRouter.put('/update/name/:userId', async (req, res) => {
 
   const sql = 'UPDATE `users` SET name = ? WHERE id = ?';
 
-  const [result, msqlErr] = await dbQueryWithData<ResultSetHeader>(sql, [updatedName, userId]);
+  const [_, msqlErr] = await dbQueryWithData<ResultSetHeader>(sql, [updatedName, userId]);
 
   if (msqlErr) {
     console.warn('msqlErr ===', msqlErr);

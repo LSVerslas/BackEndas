@@ -31,4 +31,15 @@ Content-Type: application/json
 {
   "updatedName": "James Hash 333"
 }
+### Update User
+
+PUT http://localhost:3000/auth/user/update/26
+Content-Type: application/json
+
+{
+  "name": "Jane Dow",
+  "email": "Jane@dow.com",
+  "currentPassword": 123456,
+  "password": 123123
+}
   

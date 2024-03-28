@@ -20,6 +20,9 @@ GET http://localhost:3000/trips4004
 
 ### Get single Trip
 GET http://localhost:3000/trips/1
+
+### Get trip by country
+GET http://localhost:3000/trips/byCountry/2
 ### Get single Trip
 GET http://localhost:3000/trips/deleted
 
@@ -49,3 +52,8 @@ GET http://localhost:3000/countries
 ### get all countries
 
 GET http://localhost:3000/countries/1
+
+### LIKES API
+
+
+POST  http://localhost:3000/likes
